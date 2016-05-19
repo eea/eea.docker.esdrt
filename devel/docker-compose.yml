@@ -2,6 +2,7 @@ plone:
   image: eeacms/plone-esdrt
   ports:
   - "8080:8080"
+  - "4444:4444"
   volumes:
   - ./src:/plone/instance/src
   volumes_from:
