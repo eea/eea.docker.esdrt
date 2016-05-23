@@ -1,7 +1,12 @@
 apache:
   image: eeacms/apache
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: esdrt=yes
   links:
   - haproxy
+  ports:
+  - ":80"
   environment:
     SERVER_ADMIN: "helpdesk@eea.europa.eu"
     SERVER_NAME: "${DOMAIN_NAME}"
@@ -35,7 +40,7 @@ postfix:
   image: eeacms/postfix:eionet
   labels:
     io.rancher.container.pull_image: always
-    io.rancher.scheduler.affinity:host_label: eni-seis=yes
+    io.rancher.scheduler.affinity:host_label: esdrt=yes
   tty: true
   stdin_open: true
   environment:
@@ -44,10 +49,10 @@ postfix:
   - /etc/localtime:/etc/localtime:ro
 
 plone:
-  image: eeacms/plone-eni-seis
+  image: eeacms/plone-esdrt
   labels:
     io.rancher.container.pull_image: always
-    io.rancher.scheduler.affinity:host_label: eni-seis=yes
+    io.rancher.scheduler.affinity:host_label: esdrt=yes
   tty: true
   stdin_open: true
   links:
@@ -60,10 +65,10 @@ plone:
   - /etc/localtime:/etc/localtime:ro
 
 async:
-  image: eeacms/plone-eni-seis
+  image: eeacms/plone-esdrt
   labels:
     io.rancher.container.pull_image: always
-    io.rancher.scheduler.affinity:host_label: eni-seis=yes
+    io.rancher.scheduler.affinity:host_label: esdrt=yes
   tty: true
   stdin_open: true
   links:
@@ -76,11 +81,11 @@ async:
   - /etc/localtime:/etc/localtime:ro
 
 zeoserver:
-  image: eeacms/plone-eni-seis
+  image: eeacms/plone-esdrt
   labels:
     io.rancher.sidekicks: data
     io.rancher.container.pull_image: always
-    io.rancher.scheduler.affinity:host_label: eni-seis=yes
+    io.rancher.scheduler.affinity:host_label: esdrt=yes
   tty: true
   stdin_open: true
   volumes_from:
