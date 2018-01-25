@@ -1,17 +1,18 @@
-plone:
-  image: eeacms/plone-esdrt
-  ports:
-  - "8080:8080"
-  - "4444:4444"
-  volumes:
-  - ./src:/plone/instance/src
-  volumes_from:
-  - plone_data
-  command: ["fg"]
+version: "2"
 
-plone_data:
-  image: busybox
-  volumes:
-  - /data/filestorage
-  - /data/blobstorage
-  command: ["chown", "-R", "500:500", "/data"]
+services:
+  plone:
+    image: eeacms/plone-emrt:11.3-1.0.3
+    ports:
+    - "8080:8080"
+    volumes:
+    - ./src:/plone/instance/src
+    - ./data/filestorage:/data/filestorage
+    - ./data/blobstorage:/data/blobstorage
+    entrypoint: sh -c "tail -f /dev/null"
+
+  memcached:
+    image: memcached:1.4.37
+    command:
+    - -m
+    - '2048'
